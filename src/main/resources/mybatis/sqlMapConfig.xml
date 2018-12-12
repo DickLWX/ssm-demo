@@ -5,12 +5,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	
 	<!-- 全局setting配置，根据需要添加 -->
-	
+	<settings>
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
 	<!-- 配置别名 -->
 	<typeAliases>
 		<!-- 批量扫描别名 -->
-		<package name="po"/>
+		<package name="com.dick.weibo.po"/>
 	</typeAliases>
+
 
 	<!-- 配置mapper
 	由于使用spring和mybatis的整合包进行mapper扫描，这里不需要配置了。
