@@ -2,8 +2,10 @@ package com.dick.weibo.controller;
 
 import com.dick.weibo.po.CommentCustom;
 import com.dick.weibo.service.CommentService;
+import com.dick.weibo.utils.CacheUtil;
 import com.dick.weibo.utils.DateConvert;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Controller
 public class CommentController {
-	
+
 	@Autowired
 	private CommentService commentService;
 	
@@ -26,8 +28,11 @@ public class CommentController {
 	public CommentCustom comment(
 			@RequestBody CommentCustom commentCustom) throws Exception {
 		commentService.addComment(commentCustom);
-		
 		return commentCustom;
+	/*	boolean b = CacheUtil.setString("123", "redis2");//向redis里存字符串 key-value
+		System.out.println(b);//true成功，
+		System.out.println(CacheUtil.getString("1234"));
+		return null;*/
 	}
 	
 	//遍历评论

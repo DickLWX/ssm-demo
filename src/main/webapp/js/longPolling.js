@@ -54,5 +54,5 @@ var getNotice ={
         	 $.ajax(getNotice);
          }
      },
-	
+
 }

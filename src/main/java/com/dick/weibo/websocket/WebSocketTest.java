@@ -1,6 +1,9 @@
 package com.dick.weibo.websocket;
 
+import cn.hutool.core.convert.Convert;
+import com.dick.weibo.utils.CacheUtil;
 import com.dick.weibo.utils.DateConvert;
+import com.google.common.base.Objects;
 import org.apache.commons.beanutils.converters.DateConverter;
 
 import javax.websocket.*;
@@ -19,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/hello")
 public class WebSocketTest {
 	// 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
-	private static int onlineCount = 0;
+	//private static int onlineCount = 0;
 
 	// concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
 	public static CopyOnWriteArraySet<WebSocketTest> webSocketSet = new CopyOnWriteArraySet<WebSocketTest>();
@@ -117,15 +120,41 @@ public class WebSocketTest {
 	}
 
 	public static synchronized int getOnlineCount() {
-		return onlineCount;
+		 if (Objects.equal(CacheUtil.getString("onlineCount"),null)){
+		 	CacheUtil.setString("onlineCount","0");
+		 }
+		 Integer onlineCount = Convert.toInt(CacheUtil.getString("onlineCount"));
+		 if (onlineCount < 0){
+			 CacheUtil.setString("onlineCount","0");
+			 onlineCount = 0;
+		 }
+		 return onlineCount;
 	}
 
 	public static synchronized void addOnlineCount() {
-		WebSocketTest.onlineCount++;
+		if (Objects.equal(CacheUtil.getString("onlineCount"),null)){
+			CacheUtil.setString("onlineCount","0");
+		}
+		Integer onlineCount = Convert.toInt(CacheUtil.getString("onlineCount"));
+		if (onlineCount < 0){
+			onlineCount = 1;
+		}else {
+			onlineCount++;
+		}
+		CacheUtil.setString("onlineCount",Convert.toStr(onlineCount));
 	}
 
 	public static synchronized void subOnlineCount() {
-		WebSocketTest.onlineCount--;
+		if (Objects.equal(CacheUtil.getString("onlineCount"),null)){
+			CacheUtil.setString("onlineCount","0");
+		}
+		Integer onlineCount = Convert.toInt(CacheUtil.getString("onlineCount"));
+		if (onlineCount <= 0){
+			onlineCount = 0;
+		}else {
+			onlineCount--;
+		}
+		CacheUtil.setString("onlineCount",Convert.toStr(onlineCount));
 	}
 
 }

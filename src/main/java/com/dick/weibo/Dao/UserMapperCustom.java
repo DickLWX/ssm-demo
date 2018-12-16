@@ -63,7 +63,7 @@ public interface UserMapperCustom {
 	public void updatePassword(User u);
 
 	// 模糊查询用户
-	public List<UserCustom> queryUserByWord(@Param("keyWord")String keyWord);
+	public List<UserCustom> queryUserByWord(String keyWord);
 
 
 }

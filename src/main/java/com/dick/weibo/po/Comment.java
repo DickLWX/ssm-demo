@@ -2,6 +2,7 @@ package com.dick.weibo.po;
 
 import java.util.Date;
 
+import com.dick.weibo.utils.CustomJsonDateDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
@@ -14,6 +15,7 @@ public class Comment {
 
     private Integer weiboId;
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date commentTime;
 
     private String commentContent;
